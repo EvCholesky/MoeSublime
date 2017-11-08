@@ -1,0 +1,111 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: Moe
+scopeName: source.moe
+fileTypes: [moe]
+uuid: 3971aca2-2c80-4745-9e8b-8b1d95a5af33
+
+patterns:
+- include: '#translation_unit'
+
+repository:
+  comment:
+    patterns:
+    - include: '#line-comment'
+    - include: '#block-comment'
+
+  block-comment:
+    name: comment.block.source.moe
+    begin: /\*
+    end: \*/
+    patterns:
+    - include: '#block-comment'
+
+  cast:
+    match: \b(cast)\s*\((?:\*|\^)*(.+?)\)
+    captures:
+      '1': {name: keyword.operator.source.moe}
+      '2': {name: storage.type.source.moe}
+
+  constants:
+    patterns:
+    - name: constant.language.source.moe
+      match: \b(true|false|null)\b
+    - name: constant.numeric.hexadecimal.source.moe
+      match: (?<!\w)0[xX][[:xdigit:]]+
+    - name: constant.numeric.decimal.source.moe
+      match: (?<!\w)\d+(?:\.\d+)?
+
+  enum:
+    match: (\w+)\s*(enum)\b
+    captures:
+      '1': {name: entity.name.type.enum.source.moe}
+      '2': {name: storage.type.enum.source.moe}
+
+  function:
+    patterns:
+    - include: '#function_declaration'
+    - include: '#function_use'
+
+  function_declaration:
+    match: \b([a-zA-Z_]\w*)\b\s*(proc)\s*[\(]
+    captures:
+      '1': {name: meta.function.source.moe entity.name.function.source.moe}
+      '2': {name: storage.modifier.source.moe}
+
+  function_use:
+    match: (?!(while|for|if|else|return|continue|then|acast|defer|cast|sizeof|alignof|using|inline|no_inline)\s+)([a-zA-Z_]\w*)\s*[\(]
+    captures:
+      '2': {name: support.function.source.moe}
+
+  keywords:
+    patterns:
+    - name: keyword.other.directive.source.moe
+      match: '#\w*'
+    - name: keyword.control.source.moe
+      match: \b(?:if|else|for|for_each|while|continue|break|switch|case|fallthrough|default|return)\b
+    - name: keyword.operator.source.moe
+      match: \b(?:acast|sizeof|alignof|typeinfo|typedef|new|delete)\b
+    - name: keyword.other.source.moe
+      match: \b(?:defer|using)\b
+    - name: keyword.other.source.moe
+      match: '---'
+    - name: keyword.other.source.moe
+      match: \b(it|it_index|context)\b
+
+  line-comment:
+    name: comment.line.source.moe
+    begin: //
+    end: $
+
+  storage:
+    patterns:
+    - name: storage.modifier.source.moe
+      match: \b(?:SOA|AOS|inline|no_inline)\b
+    - name: storage.type.source.moe
+      match: \b(?:void|string|bool|float|f32|f64|int|u8|u16|u32|u64|s8|s16|s32|s64|Any)\b
+    - name: storage.type.source.moe
+      match: \b([A-Z][a-z0-9]+)([_][A-Z][a-z0-9]*)*\b
+    - name: storage.constant.moe
+      match: \b[A-Z_](?![a-z])[A-Z_0-9]+\b
+    - name: string.quoted.double.source.moe
+      match: '".*?"'
+    - name: storage.type.source.moe
+      match: \$\b\w+\b
+
+  struct:
+    match: (\w+)\s*(struct)\b
+    captures:
+      '1': {name: entity.name.type.struct.source.moe}
+      '2': {name: storage.type.struct.source.moe}
+
+  translation_unit:
+    patterns:
+    - include: '#cast'
+    - include: '#function'
+    - include: '#struct'
+    - include: '#enum'
+    - include: '#comment'
+    - include: '#keywords'
+    - include: '#constants'
+    - include: '#storage'
