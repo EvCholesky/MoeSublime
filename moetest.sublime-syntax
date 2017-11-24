@@ -20,7 +20,7 @@ contexts:
     - match: '\b(test|prereq|input|parse|typecheck)\b'
       scope: keyword.control.moetest
 
-    - match: '\$\b\w+\b'
+    - match: '\?\b\w+\b'
       scope: constant.other
       pop: true
 
