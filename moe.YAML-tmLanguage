@@ -93,8 +93,12 @@ repository:
     - name: storage.type.source.moe
       match: \$\b\w+\b
 
+  label:
+    name: variable.parameter.source.moe
+    match: \`\b\w+\b
+
   struct:
-    match: (\w+)\s*(struct)\b
+    match: (\w+)\s+(struct)\b
     captures:
       '1': {name: entity.name.type.struct.source.moe}
       '2': {name: storage.type.struct.source.moe}
@@ -104,6 +108,7 @@ repository:
     - include: '#cast'
     - include: '#function'
     - include: '#struct'
+    - include: '#label'
     - include: '#enum'
     - include: '#comment'
     - include: '#keywords'

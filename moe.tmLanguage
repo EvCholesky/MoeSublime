@@ -194,6 +194,13 @@
 				</dict>
 			</array>
 		</dict>
+		<key>label</key>
+		<dict>
+			<key>match</key>
+			<string>\`\b\w+\b</string>
+			<key>name</key>
+			<string>variable.parameter.source.moe</string>
+		</dict>
 		<key>line-comment</key>
 		<dict>
 			<key>begin</key>
@@ -261,7 +268,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(\w+)\s*(struct)\b</string>
+			<string>(\w+)\s+(struct)\b</string>
 		</dict>
 		<key>translation_unit</key>
 		<dict>
@@ -278,6 +285,10 @@
 				<dict>
 					<key>include</key>
 					<string>#struct</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#label</string>
 				</dict>
 				<dict>
 					<key>include</key>
